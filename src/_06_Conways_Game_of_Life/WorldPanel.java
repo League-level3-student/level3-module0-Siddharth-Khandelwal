@@ -17,36 +17,59 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
     private int cellSize;
 
     private Timer timer;
+    Random rand = new Random();
 
     // 1. Create a 2D array of Cells. Do not initialize it.
 Cell[][] cells;
 
     public WorldPanel(int w, int h, int cpr) {
         setPreferredSize(new Dimension(w, h));
-        addMouseListener(this);
-        timer = new Timer(500, this);
-        this.cellsPerRow = cpr;
+		addMouseListener(this);
+		timer = new Timer(500, this);
+		this.cellsPerRow = cpr;
 
-        // 2. Calculate the cell size.
+		// 2. Calculate the cell size.
+		cellSize = w / cpr;
+		// 3a. Initialize the cell array to the appropriate size.
+		cells = new Cell[cellsPerRow][cellsPerRow];
+		// 3b. Iterate through the array and initialize each cell.
+		// Don't forget to consider the cell's dimensions when
+		// passing in the location.
+		for (int i = 0; i < cells.length; i++) {
+			for (int j = 0; j < cells[i].length; j++) {
+				cells[i][j] = new Cell(i * cellSize, j * cellSize, cellSize);
+			}
+		}
 
-        // 3a. Initialize the cell array to the appropriate size.
-cells = new Cell[cellSize][cellsPerRow];
-        // 3b. Iterate through the array and initialize each cell.
-        //    Don't forget to consider the cell's dimensions when 
-        //    passing in the location.
-
-    }
+	}
 
     public void randomizeCells() {
         // 4. Iterate through each cell and randomly set each
-        //    cell's isAlive memeber to true or false
-
-        repaint();
-    }
+       
+ //    cell's isAlive memeber to true or false
+    	for (int i = 0; i < cells.length; i++) {
+    		for (int j = 0; j < cells[i].length; j++) {
+    		int c = rand.nextInt(2);
+    		if(c == 1) {
+    			cells[i][j].isAlive = true;
+    		}
+    		else if(c == 0) {
+    			cells[i][j].isAlive = false;
+    		}
+    		}
+    	} 
+    	repaint();
+    		}
+       
+    
 
     public void clearCells() {
         // 5. Iterate through the cells and set them all to dead.
-
+for (int i = 0; i < cells.length; i++) {
+	for (int j = 0; j < cells[i].length; j++) {
+		cells[i][j].isAlive = false;
+	}
+}
         repaint();
     }
 
@@ -65,9 +88,16 @@ cells = new Cell[cellSize][cellsPerRow];
     @Override
     public void paintComponent(Graphics g) {
         // 6. Iterate through the cells and draw them all
+for (int i = 0; i < cells.length; i++) {
+	for (int j = 0; j < cells[i].length; j++) {
+		cells[i][j].draw(g);
+	
 
 
         // Draw the perimeter of the grid
+g.fillRect(0, 0, 500, 500);
+}
+}
         g.setColor(Color.BLACK);
         g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
     }
