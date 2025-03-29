@@ -38,7 +38,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		// passing in the location.
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
-				cells[i][j] = new Cell(i * cellSize, j * cellSize, cellSize);
+				cells[i][j] = new Cell(j * cellSize, i * cellSize, cellSize);
 			}
 		}
 
@@ -90,8 +90,8 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 			for (int j = 0; j < cells[i].length; j++) {
 				cells[i][j].draw(g);
 
-				// Draw the perimeter of the grid
-				g.fillRect(0, 0, 500, 500);
+//				// Draw the perimeter of the grid
+//				g.fillRect(0, 0, 500, 500);
 			}
 		}
 		g.setColor(Color.BLACK);
