@@ -48,36 +48,67 @@
 
 package _07_The_Wrong_Way_Cow;
 
+import static org.junit.Assert.assertArrayEquals;
+
 public class TheWrongWayCow {
 
 	public static int[] findWrongWayCow(final char[][] field) {
-        // Fill in the code to return the [col, row] coordinate position of the
-        // head (letter 'c') of the wrong way cow!
-    	
-    	int cowsGoingRight = 0;
-    	int cowsGoingDown = 0;
-        for (int i = 0; i < field.length; i++) {
+		// Fill in the code to return the [col, row] coordinate position of the
+		// head (letter 'c') of the wrong way cow!
+
+		int cowsGoingRight = 0;
+		int cowsGoingDown = 0;
+		int cowsGoingLeft = 0;
+		int cowsGoingUp = 0;
+		int[] recentRight = { 0, 0 };
+		int[] recentDown = { 0, 0 };
+		int[] recentLeft = { 0, 0 };
+		int[] recentUp = { 0, 0 };
+
+		for (int i = 0; i < field.length; i++) {
 			for (int j = 0; j < field[i].length; j++) {
-				
-				if(field[i][j] == 'c') {
-					
-					if(j+2 < field[i].length -1 && field[i][j+1] == 'o' && field[i][j+2] == 'w') {
+
+				if (field[i][j] == 'c') {
+					if (j < field[i].length - 2 && field[i][j + 1] == 'o' && field[i][j + 2] == 'w') {
 						cowsGoingRight++;
+						recentRight[0] = j;
+						recentRight[1] = i;
 					}
 				}
-				if(field[i][j] == 'c') {
-					if(i+2 <field.length - 1 && field [i+1][j] == 'o' && field[i+2][j] == 'w') {
+				if (field[i][j] == 'c') {
+					if (i < field.length - 2 && field[i + 1][j] == 'o' && field[i + 2][j] == 'w') {
 						cowsGoingDown++;
+						recentDown[0] = j;
+						recentDown[1] = i;
 					}
 				}
-				if(cowsGoingDown==1) {
-					
+				if (field[i][j] == 'c') {
+					if (j > 1 && field[i][j - 1] == 'o' && field[i][j - 2] == 'w') {
+						cowsGoingLeft++;
+						recentLeft[0] = j;
+						recentLeft[1] = i;
+					}
 				}
-				
+				if (field[i][j] == 'c') {
+					if (i > 1 && field[i - 1][j] == 'o' && field[i - 2][j] == 'w') {
+						cowsGoingUp++;
+						recentUp[0] = j;
+						recentUp[1] = i;
+					}
+				}
+
 			}
+
 		}
-        System.out.println(cowsGoingRight);
-        System.out.println(cowsGoingDown);
-        return null;
-    }
+		if (cowsGoingRight == 1) {
+			return recentRight;
+		} else if (cowsGoingDown == 1) {
+			return recentDown;
+		} else if (cowsGoingLeft == 1) {
+			return recentLeft;
+		} else {
+			return recentUp;
+		}
+
+	}
 }
